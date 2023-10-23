@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Razorpay Web-Integration</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+	<hr/>
+	
+		<div style="display:inline-block">
+			<form class="pay-form">
+				<input type="hidden" name="name" value="Shirt">
+				<input type="hidden" name="amount" value="500">
+				<input type="hidden" name="description" value="Shirt Buying">
+				<input type="submit" value="Pay Now">
+			</form>
+		</div>
+
+		
+	
+</body>
+
+</html>
+
+<!--Inside index.html -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+$(document).ready(function(){
+	$('.pay-form').submit(function(e){
+		e.preventDefault();
+
+		var formData = $(this).serialize();
+
+		$.ajax({
+			url:"/razor",
+			type:"POST",
+			data: formData,
+			success:function(res){
+				if(res.success){
+					var options = {
+						"key": ""+res.key_id+"",
+						"amount": "400",
+						"currency": "INR",
+						// "order_id": "123",
+						"handler": function (response){
+							alert("Payment Succeeded");
+							// window.open("/","_self")
+						},
+						"prefill": {
+							"contact":"546464643",
+							"name": "name",
+						
+						},
+						// "notes" : {
+						// 	"description":""+res.description+""
+						// },
+						"theme": {
+							"color": "#2300a3"
+						}
+					};
+					var razorpayObject = new Razorpay(options);
+					razorpayObject.on('payment.failed', function (response){
+							alert("Payment Failed");
+					});
+					razorpayObject.open();
+				}
+				else{
+					alert(res.msg);
+				}
+			}
+		})
+
+	});
+});
+
+</script>

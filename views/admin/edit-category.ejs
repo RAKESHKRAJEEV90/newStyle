@@ -1,0 +1,127 @@
+<%-include('../layouts/admin/styles')-%>
+
+   <%-include('../admin/header')-%>
+      <div class="conatiner-fluid content-inner mt-n5 py-0">
+         <div>
+            <div class="row">
+               <div class="col-xl-3 col-lg-4">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">Update Image</h4>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                           <div class="form-group">
+                              <div class="profile-img-edit position-relative">
+                                 <img id="uploadedImage" src="../../static/admin/adminImages/<%= category.image || ''%>" alt="profile-pic"
+                                    class="theme-color-default-img profile-pic rounded avatar-100">
+                               
+                                 <!-- Hidden file input -->
+                                 <input id="fileInput" style="display: none;" class="file-upload"   type="file" name="image" accept="image/*">
+                                 <!-- Styled label to trigger file input -->
+                                 <label class="upload-icone bg-primary">
+                                    <svg class="upload-button icon-14" width="14" viewBox="0 0 24 24" onclick="triggerFileInput()">
+                                       <path fill="#ffffff"
+                                          d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                                    </svg>
+                 
+                                 </label>
+                              </div>
+                                   <!-- Display uploaded image name -->
+                             <div class="img-extension mt-3">
+                                 <div class="d-inline-block align-items-center">
+                                    
+                                     <a href="javascript:void();" id="imageNameLink"></a>
+                                     
+                                 </div>
+                             </div>
+                              <div class="img-extension mt-3">
+                                 <div class="d-inline-block align-items-center">
+                                    <span>Only</span>
+                                    <a href="javascript:void();">.jpg</a>
+                                    <a href="javascript:void();">.png</a>
+                                    <a href="javascript:void();">.jpeg</a>
+                                    <span>allowed</span>
+                                 </div>
+                              </div>
+                           </div>
+                     
+                           <script>
+                              function triggerFileInput() {
+                                  const fileInput = document.getElementById('fileInput');
+                                  const uploadedImage = document.getElementById('uploadedImage');
+                                  const imageNameLink = document.getElementById('imageNameLink');
+                              
+                                  fileInput.addEventListener('change', function () {
+                                      const file = fileInput.files[0];
+                              
+                                      if (file) {
+                                          // Display the uploaded image
+                                          const imageUrl = URL.createObjectURL(file);
+                                          uploadedImage.src = imageUrl;
+                              
+                                          // Display the uploaded image name
+                                          imageNameLink.textContent = file.name;
+                                     
+                                      }
+                                  });
+                              
+                                  fileInput.click(); // Trigger the file input dialog
+                              }
+                              </script>
+                 
+
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-9 col-lg-8">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">Update Category Information</h4>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <div class="new-user-info">
+                           <div class="row">
+                              <div class="form-group col-md-6">
+                               
+                                 <label class="form-label" for="ctname">Category Name:</label>
+                                 <input required name="ctname" type="text" class="form-control" id="ctname"
+                                    placeholder="Category" value="<%= category.category || ''%> ">
+                              </div>
+                   
+                           
+                              <div class="form-group col-md-6">
+                                 <label class="form-label" for="desc">Description:</label>
+                                 <input required name="desc" type="textarea" class="form-control" id="desc"
+                                    placeholder="Description" value="<%= category.discription || ''%>">
+                              </div>
+
+                              
+                              <div class="form-group col-md-6 ">
+                                 <hr>
+                                 <hr>
+                                 <button type="submit" class="btn btn-primary">Update Category</button>
+                              </div>
+                           </div>
+                           <% if(typeof message !=='undefined' ){ %>
+                              <h5 class="text-center text-success">
+                                 <%= message %>
+                              </h5>
+                              <% } %>
+                                 </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <%-include('../admin/footer')-%>
+      
+
+         <%- include('../layouts/admin/scripts')-%>

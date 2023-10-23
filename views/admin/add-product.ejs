@@ -1,0 +1,258 @@
+<%-include('../layouts/admin/styles')-%>
+
+   <%-include('../admin/header')-%>
+      <div class="conatiner-fluid content-inner mt-n5 py-0">
+         <div>
+            <div class="row">
+               <div class="col-xl-3 col-lg-4">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">Add Image</h4>
+                        </div>
+                     </div>
+                     <div class="img-extension mt-3">
+
+                        <div class="d-inline-block pl-2 align-items-center">
+                           <span>Only</span>
+                           <a href="javascript:void();">.jpg</a>
+                           <a href="javascript:void();">.png</a>
+                           <a href="javascript:void();">.jpeg</a>
+                           <span>allowed</span>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                           <div class="form-group">
+                              <div class="profile-img-edit position-relative">
+                                 <img id="uploadedImage" src="../../static/admin/assets/images/avatars/01.png"
+                                    class="theme-color-default-img profile-pic rounded avatar-100">
+                                 <!-- Hidden input field to store the serialized FormData -->
+                                 <!-- <input type="hidden" name="formData" id="formData">  -->
+                                 <!-- Hidden input fields to store image data -->
+                                 <input type="hidden" name="image1" id="image1">
+                                 <input type="hidden" name="image2" id="image2">
+                                 <input type="hidden" name="image3" id="image3">
+                                 <input type="hidden" name="image4" id="image4">
+                                 <!-- Hidden file input -->
+                                 <input id="fileInput" style="display: none;" class="file-upload" type="file"
+                                    name="images" multiple accept=".jpg, .jpeg, .png, .webp">
+                                 <label class="upload-icone bg-primary">
+                                    <svg class="upload-button icon-14" width="14" viewBox="0 0 24 24"
+                                       onclick="triggerFileInput()">
+                                       <path fill="#ffffff"
+                                          d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                                    </svg>
+
+                                 </label>
+                              </div>
+                              <!-- Display uploaded image name -->
+                              <div class="img-extension mt-3">
+                                 <div class="d-inline-block align-items-center">
+
+                                    <a href="javascript:void();" id="imageNameLink"></a>
+
+                                 </div>
+                              </div>
+                              <!-- Container to display the uploaded images -->
+                              <div class="uploaded-images-container mt-3">
+                                 <div class="image-container" id="imag1">
+                                 </div>
+                              
+                                 <div class="image-container" id="imag2">
+                                 </div>
+                              
+                                 <div class="image-container" id="imag3">
+                                 </div>
+                              
+                                 <div class="image-container" id="imag4">
+                                 </div>
+                                                            </div>
+                              
+                           </div>
+
+                           <style>
+                              /* Style for the displayed images */
+                              .uploaded-images-container img {
+                                 max-width: 100px;
+                                 /* Adjust the maximum width as needed */
+                                 max-height: 100px;
+                                 /* Adjust the maximum height as needed */
+                                 margin: 5px;
+                                 /* Add margin to separate images */
+                              }
+                           </style>
+
+                           <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-9 col-lg-8">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">New Product Information</h4>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <div class="new-user-info">
+                           <div class="row">
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="productCode">Product Code:</label>
+                                 <input required name="pcode" type="text" class="form-control" id="productCode"
+                                    placeholder="product Code">
+                              </div>
+                              <div class="form-group col-md-4">
+
+                                 <label class="form-label" for="productName">Product Name:</label>
+                                 <input required name="pname" type="text" class="form-control" id="productName"
+                                    placeholder="Product Name">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="categorySelect">CategoryName:</label>
+                                 <select required name="cname" type="text" class="form-control" id="categorySelect"
+                                    placeholder="Select Category">
+                                    <option>Select Category</option>
+                                    <% if(category.length>0){
+                                       for(let i=0;i<category.length;i++){ %>
+                                          <option value="<%= category[i]._id %>">
+                                             <%= category[i].category %>
+                                          </option>
+
+                                          <% }} %>
+                                 </select>
+                                 <!-- Hidden field to store the selected category's ID -->
+                                 <input type="hidden" name="category_id" id="category_id" value="">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="pQuantity">Quantity:</label>
+                                 <input required name="quantity" type="number" class="form-control" id="pQuantity"
+                                    placeholder="Quantity">
+                              </div>
+                              <div class="form-group col-md-6">
+                                 <label class="form-label" for="pPrice">Price:</label>
+                                 <input required name="price" type="text" class="form-control" id="pPrice"
+                                    placeholder="Price">
+                              </div>
+                              <div class="form-group col-md-6 ">
+                                 <hr>
+                                 <button id="submit" type="submit" class="btn btn-primary">Add New Product</button>
+                              </div>
+                           </div>
+                           <% if(typeof message !=='undefined' ){ %>
+                              <h5 class="text-center text-success">
+                                 <%= message %>
+                              </h5>
+                              <% } %>
+                                 </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <%-include('../admin/footer')-%>
+         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+               const categorySelect = document.getElementById("categorySelect");
+               const category_idInput = document.getElementById("category_id");
+
+               categorySelect.addEventListener("change", function () {
+                  // Get the selected category's ID
+                  const selectedCategoryId = categorySelect.value;
+                  // Update the hidden input field with the selected category's ID
+                  category_idInput.value = selectedCategoryId;
+               });
+            });
+         </script>
+   
+         <script>
+            // Attach the change event listener when the page loads
+            document.addEventListener('DOMContentLoaded', function () {
+               const fileInput = document.getElementById('fileInput');
+               const uploadedImagesContainer = document.querySelector('.uploaded-images-container');
+               const maxImages = 4; // Maximum number of images to display
+               let imageIndex = 1; // Initialize image index
+
+               fileInput.addEventListener('change', function () {
+                  let files = fileInput.files;
+
+                  // Check the number of images currently displayed
+                  const currentImageCount = uploadedImagesContainer.querySelectorAll('img').length;
+
+                  if (currentImageCount + files.length > maxImages) {
+                     swal("Error!", 'You can only upload a maximum of four images.', "warning");
+                     fileInput.value = ''; // Clear the file input
+                     return;
+                  }
+
+                  const allowedExtensions = /\.(jpg|jpeg|png|webp)$/i; // Regular expression for allowed extensions
+
+                  for (let i = 0; i < files.length; i++) {
+                     const file = files[i];
+
+                     if (!allowedExtensions.test(file.name)) {
+                        swal("Error!", 'Only .jpg, .jpeg, and .png files are allowed.', "warning");
+                        fileInput.value = ''; // Clear the file input
+                        return;
+                     }
+
+                     // Display the uploaded image
+                     const imageUrl = URL.createObjectURL(file);
+                     const newImage = document.createElement('img');
+                     newImage.src = imageUrl;
+                     // Create a remove button for each image
+                     const removeButton = document.createElement('button');
+                     removeButton.textContent = 'X';
+
+                     // Use a separate function to add the event listener
+                     addRemoveEventListener(removeButton, newImage, imageIndex);
+
+                     uploadedImagesContainer.appendChild(newImage);
+                     uploadedImagesContainer.appendChild(removeButton);
+
+                     // Set hidden input values for each image
+                     setHiddenInputValue(`image${imageIndex}`, file.name);
+                     imageIndex++; // Increment the image index
+                  }
+               });
+
+               function addRemoveEventListener(removeButton, newImage, index) {
+                  removeButton.addEventListener('click', function () {
+                     // Remove the image and its corresponding elements when the button is clicked
+                     newImage.remove();
+                     removeButton.remove();
+                     // Clear the hidden input field for this image
+                     setHiddenInputValue(`image${index}`, '');
+                     imageIndex--; // Decrement the image index
+                  });
+               }
+
+               function setHiddenInputValue(inputName, value) {
+                  const hiddenInput = document.getElementById(inputName);
+                  if (hiddenInput) {
+                     hiddenInput.value = value;
+                  }
+               }
+            });
+
+            // Define the triggerFileInput function globally
+            function triggerFileInput() {
+               // Trigger the file input dialog
+               const fileInput = document.getElementById('fileInput');
+               fileInput.click();
+            }
+         </script>
+
+
+
+
+
+
+
+
+<%- include('../layouts/admin/scripts')-%>

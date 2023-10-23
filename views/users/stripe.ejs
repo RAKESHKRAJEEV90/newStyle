@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe</title>
+</head>
+<body>
+    <h3>Payment Gateway</h3>
+    <form action="" method="get">
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            var stripe = Stripe('<%=key%>');
+            var elements = stripe.elements({
+                clientSecret: 'CLIENT_SECRET',
+            });
+            var elements = stripe.elements({
+                mode: 'payment',
+                currency: 'usd',
+                amount: '<%= amount %>', // Use the amount from the query parameter
+            });
+        </script>
+
+        <script
+            src="https://checkout.stripe.com/checkout.js"
+            class="stripe-button"
+            data-key="<%=key%>"
+            data-amount="<%= amount %>" // Use the amount from the query parameter
+            data-currency="USD"
+            data-name="rakesh"
+            data-descripton="pay here"
+            data-locale="auto"
+            data-closed="onCheckoutClosed" // Define the callback function for when the checkout is closed
+        >
+        </script>
+
+        <script>
+            // Callback function for when the checkout is closed
+            function onCheckoutClosed() {
+                // Redirect back to the previous page
+                const page ='<%=page%>'
+                if(page==1){
+                    windows.location.href("/wallet");
+                }
+              
+            }
+        </script>
+    </form>
+</body>
+</html>

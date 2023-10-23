@@ -1,0 +1,75 @@
+<!-- error.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .error-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #dc3545;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .error-message {
+      font-size: 18px;
+    }
+
+    .button-container {
+      margin-top: 10px;
+    }
+
+    .ok-button, .close-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .ok-button:hover, .close-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <p class="error-message"><%= flash.message %></p>
+    <div class="button-container">
+      <button class="ok-button" onclick="handleOkClick();">OK</button>
+      <button class="close-button" onclick="handleCloseClick();">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function handleOkClick() {
+      // Handle the "OK" button click action here.
+      // You can redirect the user or perform other actions.
+      // For example, you can redirect to the homepage:
+      window.location.href = '/';
+    }
+
+    function handleCloseClick() {
+      // Handle the "Close" button click action here.
+      // You can simply close the alert.
+      const errorContainer = document.querySelector('.error-container');
+      errorContainer.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

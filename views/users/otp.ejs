@@ -1,0 +1,66 @@
+<%-include('../layouts/user/styles')-%>
+
+<!-- START SECTION BREADCRUMB -->
+<div class="breadcrumb_section bg_gray page-title-mini">
+    <div class="container"><!-- STRART CONTAINER -->
+        <div class="row align-items-center">
+        	<div class="col-md-12">
+                <div class="page-title">
+            		<h1>Verify</h1>
+                </div>
+            </div>
+         
+        </div>
+    </div><!-- END CONTAINER-->
+</div>
+<!-- END SECTION BREADCRUMB -->
+
+<!-- START MAIN CONTENT -->
+<div class="main_content">
+    <%   
+    if(typeof message !== 'undefined'){
+        %>
+        <h5 class="text-center text-danger"><%= message %></h5>
+        <%
+    }
+    %>
+
+<!-- START LOGIN SECTION -->
+<div class="login_register_wrap section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-md-10">
+                <div class="login_wrap">
+            		<div class="padding_eight_all bg-white">
+                        <div class="heading_s1">
+                            <h3>Verify OTP</h3>
+                        </div>
+                        <form method="post">
+                            <div class="form-group mb-3">
+                                <input type="hidden" required="" class="form-control"  name="user_id" value="<%= user_id %>" >
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" required="" type="text" name="otp" placeholder="otp">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-fill-out btn-block">Verify</button>
+                            </div>
+                        </form>
+                      
+                         </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END LOGIN SECTION -->
+
+
+
+</div>
+<!-- END MAIN CONTENT -->
+
+
+<a href="#" class="scrollup" style="display: none;"><i class="ion-ios-arrow-up"></i></a> 
+<%-include('../layouts/user/scripts')-%>

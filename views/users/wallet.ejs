@@ -1,0 +1,202 @@
+<%-include('../layouts/user/styles')-%>
+
+<!-- Home Popup Section -->
+
+<!-- End Screen Load Popup Section --> 
+
+<!-- START HEADER -->
+<header>
+    <title>Wallet Details</title>
+    <style>
+        /* Center the container */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Style the container */
+        .container1 {
+            width: 50vw; /* Set the width to half of the viewport width */
+            height: 70vh; /* Set the height to half of the viewport height */
+            background-color: #f0f0f0;
+            border: 1px solid #c21717cc;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(218, 22, 22, 0.2);
+            text-align: center;
+            border-radius: 5px;
+           
+        }
+        
+
+        /* Style the close button */
+        .section .close-button {
+            position:absolute;
+            top: 100px;
+             right: 10px; 
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .container1.row {
+    display: flex;
+    flex-direction: row;
+    /* Add any other necessary styles here */
+}
+/* Style the button to add balance to the wallet */
+#addBalanceButton {
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 12px 16px; /* Add padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Adjust the top margin as needed */
+}
+
+/* Style the button on hover */
+#addBalanceButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+    </style>
+    </header>
+    <div class="main_content1">
+    <div class="section">
+        <span class="close-button ml-auto" id="closeButton">&times;</span>
+    <div class="container1">
+        <div>
+        <h1>Wallet Details</h1>
+     <div class="d-flex col-12 m-auto justify-content-center">
+           <!-- Add the button to add balance to the wallet -->
+    <button id="addBalanceButton" class="btn btn-fill-out p-0 col-1 m-1 text-center align-items-center">+ </button>
+    <p class="mt-3"><strong>Wallet Balance:</strong> <%= userData.wallet %> USD</p>
+     </div>
+        <p><strong>User Name:</strong> <%= userData.name %></p>
+        <p><strong>Order Total:</strong> <%= totalAmount %> USD</p>
+        <%
+        if(flag == 0){
+            %>
+            <p class="my-5"><strong>Your Wallet Balance after Payment:</strong> <%= newBalance %> USD</p>
+        
+            <a href="/order-complete?option=<%=option%>&wallet=<%= newBalance %>"  class="btn btn-fill-out btn-block btn-place-order col-6 m-auto ">Place Order</a>
+            <%}else{%>
+<p>Your Wallet Balance is not sufficient for Payment:</p>
+            <p><strong>You have to pay Additional:</strong> <%= newBalance %> USD</p>
+        </div>
+         <div class="row">
+                <div class="custome-radio col-6 mb-4">
+                    <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios76" value="option76" checked="">
+                    <label class="form-check-label" for="exampleRadios76">Cash on Delivery</label>
+                    <p data-method="option76" class="payment-text">Pay When you Get the Product; </p>
+                </div>
+              
+                <div class="custome-radio col-6 mb-4">
+                    <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios78" value="option78">
+                    <label class="form-check-label" for="exampleRadios78">RazorPay/Paypal/Stripe</label>
+                    <p data-method="option78" class="payment-text"> You can pay through Online Methods </p>
+                </div> 
+                <a  id="placeOrderLink1" class="btn btn-fill-out btn-block btn-place-order col-6 m-auto">Place Order</a>
+            </div>
+            
+            <%}%>
+
+    </div>
+
+</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+     // Wait for the DOM to be fully loaded before adding event listeners
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the close button element
+    const closeButton = document.getElementById("closeButton");
+
+    // Add a click event listener to the close button
+    closeButton.addEventListener("click", function () {
+        // Redirect to the last page (you may need to implement this logic)
+        window.history.back();
+    });
+
+    // Check if the "Place Order" button should be enabled
+    const placeOrderLink = document.getElementById("placeOrderLink1");
+    const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+    const newBalance = "<%= newBalance %>";
+
+    // Check if the condition for enabling the button is met (e.g., flag is 0)
+    const flag1 = '<%= flag %>';
+
+    if (flag1 == 1) {
+        // Add a click event listener to the "Place Order" button
+        placeOrderLink.addEventListener("click", () => {
+            let selectedOption = null;
+            // Find the selected payment option
+            for (const option of paymentOptions) {
+                if (option.checked) {
+                    selectedOption = option.value;
+                    break;
+                }
+            }
+            let url;
+            // If a payment option is selected, construct the URL and set it as the href
+            if (selectedOption) {
+                console.log(selectedOption)
+                const payment_option = selectedOption;
+                if(selectedOption == 'option76'){
+                 url = `/order-complete?option=${selectedOption}&wallet=${newBalance}&newoption=${payment_option}`;
+                 }else{
+                     url = `/stripe?option=${selectedOption}&wallet=${newBalance}&newoption=${payment_option}`;
+  
+                 }
+                  placeOrderLink.href = url;
+            } else {
+                // Handle the case where no option is selected
+                alert("Please select a payment option before placing your order.");
+            }
+        });
+    } else {
+        // Disable or hide the "Place Order" button when the condition is not met
+        placeOrderLink.style.display = "none"; // or placeOrderLink.disabled = true;
+    }
+});
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded",function(){
+            //get the add balance to the wallet button
+            const addBalanceButton = document.getElementById("addBalanceButton");
+            //add click event listener to the button
+            addBalanceButton.addEventListener("click",()=>{
+                //show a sweet alert input dilogue box
+                Swal.fire({
+                    title:"Add Balance to Wallet",
+                    input:"text",
+                    inputLabel:"Enter the Amount(USD)",
+                    inputPlaceholder:"Amount",
+                    showCancelButton:true,
+                    confirmButtonText:"Proceed to Payment",
+                    cancelButtonText:"Cancel",
+                    inputValidator:(value)=>{
+                        if(!value||isNaN(value)||parseFloat(value)<=0){
+                            return "Please Enter a valid Positive Amount.";
+                        }
+                    },
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        //user clicked "proceed to payment"
+                        const amountToAdd = parseFloat(result.value);
+                        //redirect to payment gateway
+                        window.location.href= `/stripepay?amount=${amountToAdd}&page=1`;
+                    }
+                })
+            })
+        })
+    </script>
+    
+    <%-include('../layouts/user/scripts')-%>

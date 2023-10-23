@@ -1,0 +1,164 @@
+<%-include('../layouts/admin/styles')-%>
+
+   <%-include('../admin/header')-%>
+      <div class="conatiner-fluid content-inner mt-n5 py-0">
+         <div>
+            <div class="row">
+               <div class="col-xl-3 col-lg-4">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">Add Image</h4>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                           <div class="form-group">
+                              <div class="profile-img-edit position-relative">
+                                 <img id="uploadedImage" src="../../static/admin/adminImages/<%= product.image%> "
+                                    class="theme-color-default-img profile-pic rounded avatar-100">
+                              
+                                 <!-- Hidden file input -->
+                                 <input id="fileInput" style="display: none;" class="file-upload" type="file"
+                                 name="image" accept="image/*">                                 <!-- Styled label to trigger file input -->
+                                 <label  class="upload-icone bg-primary">
+                                    <svg class="upload-button icon-14" width="14" viewBox="0 0 24 24"
+                                    onclick="triggerFileInput()">
+                                    <path fill="#ffffff"
+                                       d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                                 </svg>
+
+                                 </label>
+                              </div>
+                               <!-- Display uploaded image name -->
+                               <div class="img-extension mt-3">
+                                 <div class="d-inline-block align-items-center">
+
+                                    <a href="javascript:void();" id="imageNameLink"></a>
+
+                                 </div>
+                              </div>
+                              <div class="img-extension mt-3">
+                                 <div class="d-inline-block align-items-center">
+                                    <span>Only</span>
+                                    <a href="javascript:void();">.jpg</a>
+                                    <a href="javascript:void();">.png</a>
+                                    <a href="javascript:void();">.jpeg</a>
+                                    <span>allowed</span>
+                                 </div>
+                              </div>
+                           </div>
+                           <script>
+                              function triggerFileInput() {
+                                 const fileInput = document.getElementById('fileInput');
+                                 const uploadedImage = document.getElementById('uploadedImage');
+                                 const imageNameLink = document.getElementById('imageNameLink');
+                     
+                                 fileInput.addEventListener('change', function () {
+                                    const file = fileInput.files[0];
+                     
+                                    if (file) {
+                                       // Display the uploaded image
+                                       const imageUrl = URL.createObjectURL(file);
+                                       uploadedImage.src = imageUrl;
+                     
+                                       // Display the uploaded image name
+                                       imageNameLink.textContent = file.name;
+                     
+                                    }
+                                 });
+                     
+                                 fileInput.click(); // Trigger the file input dialog
+                              }
+                           </script>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-9 col-lg-8">
+                  <div class="card">
+                     <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                           <h4 class="card-title">New Product Information</h4>
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <div class="new-user-info">
+                           <div class="row">
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="pcode">Product Code:</label>
+                                 <input required name="pcode" type="text" class="form-control" id="pcode"
+                                    placeholder="product Code" value="<%= product.productcode || ''%> ">
+                              </div>
+                              <div class="form-group col-md-4">
+                               
+                                 <label class="form-label" for="pname">Product Name:</label>
+                                 <input required name="pname" type="text" class="form-control" id="pname"
+                                    placeholder="Product Name"value="<%= product.productname || ''%> ">
+                              </div>
+                              
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="cname">CategoryName:</label>
+                                 <select required name="cname" type="text" class="form-control" id="categorySelect"
+                                    placeholder="Select Category">
+                                    <option><%= product.category_name || ''%> </option>
+                                    <% 
+                        if(category.length>0){
+                            for(let i=0;i<category.length;i++){
+                                %>
+                                    <option value="<%= category[i]._id %>"><%= category[i].category %></option>
+                                  
+                                    <% }} %>
+                                 </select>
+                                 <!-- Hidden field to store the selected category's ID -->
+        <input type="hidden" name="category_id" id="category_id" value="">
+                              </div>
+                             
+                              <div class="form-group col-md-4">
+                                 <label class="form-label" for="quantity">Quantity:</label>
+                                 <input required name="quantity" type="text" class="form-control" id="quantity"
+                                    placeholder="Quantity" value="<%= product.quantity || ''%> ">
+                              </div>
+                             
+                            
+                              <div class="form-group col-md-6">
+                                 <label class="form-label" for="price">Price:</label>
+                                 <input required name="price" type="text" class="form-control" id="price"
+                                    placeholder="Price" value="<%= product.price || ''%> ">
+                              </div>
+                              <div class="form-group col-md-6 ">
+                                 <hr>
+                                 <button type="submit" class="btn btn-primary">Update Product</button>
+                              </div>
+                           </div>
+                           <% if(typeof message !=='undefined' ){ %>
+                              <h5 class="text-center text-success">
+                                 <%= message %>
+                              </h5>
+                              <% } %>
+                                 </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <%-include('../admin/footer')-%>
+      <script>
+         document.addEventListener("DOMContentLoaded", function () {
+             const categorySelect = document.getElementById("categorySelect");
+             const category_idInput = document.getElementById("category_id");
+           
+     
+             categorySelect.addEventListener("change", function () {
+                 // Get the selected category's ID
+                 const selectedCategoryId = categorySelect.value;
+                 // Update the hidden input field with the selected category's ID
+                 category_idInput.value = selectedCategoryId;
+             });
+         });
+     </script>
+     
+    
+
+         <%- include('../layouts/admin/scripts')-%>

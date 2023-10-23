@@ -1,0 +1,24 @@
+
+<h1>Edit User</h1>
+<form action="" method="post" >
+    <input type="text"  name="name" placeholder="Enter name" value="<%=user.name%>" >
+    <br><br>
+    <input type="email" name="email" placeholder="Enter email"value="<%=user.email%>" >
+    <br><br>
+    <input type="text" name="mno" placeholder="Enter mobile"value="<%=user.mobile%>" >
+    <br><br>
+    <!-- <input type="password" name="password" placeholder="Enter password" value="<%=user.password%>"> -->
+    <br><br>
+    <input type="hidden" name="user_id" value="<%=user._id%>">
+    <input type="submit" value="Update User">
+    <br><br>
+
+</form>
+
+    <% if(typeof message !=='undefined'){
+        %>
+        <p style="color:red;"><%= message %></p>
+        <%
+    } %>
+
+    <a href="/home">Back to Home</a>
